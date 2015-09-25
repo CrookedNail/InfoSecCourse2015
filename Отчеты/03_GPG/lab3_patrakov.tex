@@ -1,0 +1,106 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+\title{Лабораторная работа №3 \\ Курс: Защита информации}
+\author{Патраков Николай}
+
+\ifx\pdfoutput\undefined
+\usepackage{graphicx}
+\else
+\usepackage[pdftex]{graphicx}
+\fi
+
+\begin{document}
+	\maketitle
+	\clearpage
+	\tableofcontents
+ \clearpage
+
+\large{Программа для шифрования и подписи GPG, пакет Gpg4win}
+
+\section{Создать ключевую пару OpenGp}
+
+Kleopatra это графический интерфейс к GnuPG и предназначенных для работы под окружением KDE, портированный на MS Windows(Рис. 1).
+\begin{figure}[h!]
+	\center
+	\includegraphics{pic1}
+	\caption{Новая ключевая пара}
+\end{figure}
+\clearpage
+
+Выглядит ключ следующим образом(Рис. 2).
+\begin{figure}[h!]
+	\center
+	\includegraphics{pic2}
+	\caption{Ключ}
+\end{figure}
+\clearpage
+
+\section{Поставить ЭЦП на файл}
+После подписания файла создается его копия, но с измененным форматом. В конце приписывается .sig(Рис. 3).
+\begin{figure}[h!]
+	\center
+	\includegraphics{pic3}
+	\caption{Файл hihi.txt с подписью}
+\end{figure}
+
+\section{Получить чужой сертификат,импортировать его, проверить подпись}
+Получив чужой сертификат(Рис. 4), можно расшифровывать подписанные этим пользователем файлы (Рис. 5).
+\begin{figure}[h!]
+	\center
+	\includegraphics{pic4}
+	\caption{Полученный сертификат}
+\end{figure}
+\begin{figure}[h!]
+	\center
+	\includegraphics{pic5}
+	\caption{Расшифровка файла с помощью импортированного сертификата}
+\end{figure}
+\clearpage
+
+
+\section{Работа с консолью}
+Все эти операции можно повторить в консоли. Например, создание ключа осуществляется командой:
+\begin{verbatim*}
+	gpg --gen-key
+\end{verbatim*}
+При создании нас просят ввести дополнительные параметры. Выглядит это примерно так (Рис. 6).
+\begin{figure}[h!]
+	\center
+	\includegraphics[width =\linewidth]{pic6}
+	\caption{Создание ключа в консоли}
+\end{figure}
+\clearpage
+
+Мы можем убедиться, что он создан с помощью команды
+\begin{verbatim*}
+	gpg --list-keys
+\end{verbatim*}
+
+Для импорта и экспорта используются команды --import и --armor соответственно.
+
+Шифрование. Для того, чтобы можно было в последующем на другой машине расшифровать/верифицировать наши файлы необходимо экспортировать ключ. Воспользуемся для этого ключем --export. Пример команды:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width =\linewidth]{pic7}
+	\caption{Экспорт ключа}
+\end{figure}
+
+Сделаем вывод в файл, чтобы потом отправить его на удаленную машину.
+Теперь перейдем к шифрованию: зашифруем файл на удаленной машине, после чего скинем его на основную и расшифруем.
+
+Как видно, появился файл hihi.txt.asc, теперь его можно передать на клиентскую машину для расшифровки. Расшифровать можно с помошью команды:
+\begin{verbatim}
+	gpg -d hihi.txt.asc >hihi.txt
+\end{verbatim}
+
+ 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width =\linewidth]{pic8}
+	\caption{Шифорвание файла}
+\end{figure}
+
+\end{document}
